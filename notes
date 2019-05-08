@@ -1,0 +1,4 @@
+./generate_dict
+./generate_corpus corpus
+cd $SRC/cryptofuzz && ./cryptofuzz -dict=cryptofuzz-dict.txt -print_pcs=1 corpus |& tee -a log
+             
