@@ -118,7 +118,7 @@ if [[ $CFLAGS != *sanitize=memory* ]]
 then
     # Compile EverCrypt (with assembly)
     cd $SRC/evercrypt/dist/generic
-    make -j$(nproc) libevercrypt.a
+    make -j$(nproc) || true 
 
     export CXXFLAGS="$CXXFLAGS -DCRYPTOFUZZ_EVERCRYPT"
     export EVERCRYPT_A_PATH="$SRC/evercrypt/dist/generic/libevercrypt.a"
