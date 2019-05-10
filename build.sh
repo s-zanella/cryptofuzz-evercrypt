@@ -132,5 +132,5 @@ then
 
     # Compile Cryptofuzz with Libsodium, BoringSSL and EverCrypt
     cd $SRC/cryptofuzz
-    LIBFUZZER_LINK="$LIB_FUZZING_ENGINE" CXXFLAGS="$CXXFLAGS -I $SRC/openssl/include -I $LIBSODIUM_INCLUDE_PATH" make -B -j$(nproc)
+    LIBFUZZER_LINK="$LIB_FUZZING_ENGINE" CXXFLAGS="$CXXFLAGS -I $SRC/boringssl/include -I $LIBSODIUM_INCLUDE_PATH -I $EVERCRYPT_INCLUDE_PATH -I $KREMLIN_INCLUDE_PATH" make -B -j$(nproc)
 fi
