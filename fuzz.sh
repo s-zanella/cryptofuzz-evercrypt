@@ -1,8 +1,8 @@
 #!/bin/bash -eu
-cd /src/cryptofuzz
+cd $SRC/cryptofuzz
 
 if [ ! -d "CORPUS" ]; then
-  mkdir corpus && ./generate_corpus
+  unzip ../cryptofuzz-corpora/all_latest.zip -d CORPUS
 fi
 
 ./cryptofuzz -dict=cryptofuzz-dict.txt CORPUS -print_pcs=1 |& tee -a log
