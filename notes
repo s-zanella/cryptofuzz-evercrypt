@@ -1,4 +1,17 @@
+docker build -t oss-fuzz:cryptofuzz .
+# Needs --cap-add SYS_PTRACE
+docker run --cap-add SYS_PTRACE -t oss-fuzz:cryptofuzz
+docker run --cap-add SYS_PTRACE -it oss-fuzz:cryptofuzz-built /bin/bash
+
 ./generate_dict
-./generate_corpus corpus
+# This is very slow, instead unzip one of the generated corpora
+# ./generate_corpus corpus
+unzip -d $SRC/cryptofuzz/CORPUS $SRC/cryptofuzz-corpora/all_latest.zip
 cd $SRC/cryptofuzz && ./cryptofuzz -dict=cryptofuzz-dict.txt -print_pcs=1 corpus |& tee -a log
-             
+
+
+# Focus on finding more inputs to a function:
+./cryptofuzz -dict=cryptofuzz-dict.txt CORPUS -print_pcs=1 -focus_function="cryptofuzz::module::EverCrypt::OpKDF_HKDF(cryptofuzz::operation::KDF_HKDF&)"
+
+# Get coverage
+/cryptofuzz CORPUS -runs=0 -print_pcs=1 -print_coverage=1 |& tee coverage
