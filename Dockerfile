@@ -36,3 +36,4 @@ RUN curl -SL https://github.com/project-everest/hacl-star/archive/evercrypt-v0.1
 COPY build.sh $SRC/
 COPY env.sh $SRC/
 COPY fuzz.sh $SRC/
+COPY evercrypt_libsodium_openssl.zip $SRC/

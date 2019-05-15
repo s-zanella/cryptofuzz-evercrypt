@@ -123,7 +123,7 @@ then
     export CXXFLAGS="$CXXFLAGS -DCRYPTOFUZZ_EVERCRYPT"
     export EVERCRYPT_A_PATH="$SRC/evercrypt/dist/generic/libevercrypt.a"
     export KREMLIN_A_PATH="$SRC/evercrypt/dist/kremlin/kremlib/dist/minimal/*.o"
-    export EVERCRYPT_INCLUDE_PATH="$SRC/evercrypt/dist/evercrypt-external-headers"
+    export EVERCRYPT_INCLUDE_PATH="$SRC/evercrypt/dist"
     export KREMLIN_INCLUDE_PATH="$SRC/evercrypt/dist/kremlin/include"
     
     # Compile Cryptofuzz EverCrypt (with assembly) module

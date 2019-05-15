@@ -1,7 +1,9 @@
 docker build -t oss-fuzz:cryptofuzz .
 # Needs --cap-add SYS_PTRACE
 docker run --cap-add SYS_PTRACE -t oss-fuzz:cryptofuzz
+docker commit <container-id> oss-fuzz:cryptofuzz-built2
 docker run --cap-add SYS_PTRACE -it oss-fuzz:cryptofuzz-built /bin/bash
+docker exec -it <container-id> /bin/bash
 
 ./generate_dict
 # This is very slow, instead unzip one of the generated corpora

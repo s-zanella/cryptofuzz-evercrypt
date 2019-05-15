@@ -12,7 +12,7 @@ export CXXFLAGS="$CXXFLAGS -DCRYPTOFUZZ_EVERCRYPT -DCRYPTOFUZZ_LIBSODIUM -DCRYPT
 
 export EVERCRYPT_A_PATH="$SRC/evercrypt/dist/generic/libevercrypt.a"
 export KREMLIN_A_PATH="$SRC/evercrypt/dist/kremlin/kremlib/dist/minimal/*.o"
-export EVERCRYPT_INCLUDE_PATH="$SRC/evercrypt/dist/"
+export EVERCRYPT_INCLUDE_PATH="$SRC/evercrypt/dist"
 export KREMLIN_INCLUDE_PATH="$SRC/evercrypt/dist/kremlin/include"
 
 export LIBSODIUM_A_PATH="$SRC/libsodium/src/libsodium/.libs/libsodium.a"
