@@ -9,9 +9,27 @@ docker run --cap-add SYS_PTRACE -it oss-fuzz:cryptofuzz-built /bin/bash
 unzip -d $SRC/cryptofuzz/CORPUS $SRC/cryptofuzz-corpora/all_latest.zip
 cd $SRC/cryptofuzz && ./cryptofuzz -dict=cryptofuzz-dict.txt -print_pcs=1 corpus |& tee -a log
 
-
 # Focus on finding more inputs to a function:
 ./cryptofuzz -dict=cryptofuzz-dict.txt CORPUS -print_pcs=1 -focus_function="cryptofuzz::module::EverCrypt::OpKDF_HKDF(cryptofuzz::operation::KDF_HKDF&)"
 
-# Get coverage
+# or
+./cryptofuzz -dict=cryptofuzz-dict.txt CORPUS -print_pcs=1 -focus_function="cryptofuzz::ExecutorBase<cryptofuzz::component::Ciphertext, cryptofuzz::operation::SymmetricEncrypt>::Run(fuzzing::datasource::Datasource&, unsigned char const*, unsigned long) const"
+
+# Get coverage of CORPUS
 /cryptofuzz CORPUS -runs=0 -print_pcs=1 -print_coverage=1 |& tee coverage
+
+# Visualize coverage (http://clang.llvm.org/docs/SourceBasedCodeCoverage.html)
+# Recompile everything with -fprofile-instr-generate -fcoverage-mapping
+# See COVERAGE_FLAGS_coverage in Docker image too
+export CFLAGS="$CFLAGS -fprofile-instr-generate -fcoverage-mapping"
+export CXXFLAGS="$CXXFLAGS -fprofile-instr-generate -fcoverage-mapping"
+./cryptofuzz CORPUS -runs=0
+llvm-profdata merge -sparse *.profraw -o default.profdata
+llvm-cov show cryptofuzz -instr-profile=default.profdata -name=EverCrypt_HMAC_compute_sha1
+
+# All EverCrypt
+llvm-cov show cryptofuzz -instr-profile=default.profdata --ignore-filename-regex="/src/evercrypt/dist/generic/libintvector.h" --ignore-filename-regex="/src/evercrypt/dist/generic/curve25519-inline.h" --ignore-filename-regex="/src/evercrypt/dist/kremlin" --ignore-filename-regex="/src/openssl" --ignore-filename-regex="/src/libsodium" --ignore-filename-regex="/src/cryptofuzz" --use-color -Xdemangler=c++filt | more
+
+# Minimize corpus
+mkdir MIN
+./cryptofuzz -merge=1 MIN CORPUS
